@@ -3,8 +3,10 @@ run-name: Job started by ${{ github.actor }}
 on: [push]
 jobs:
   Maven-Test:
-    runs-on: maven:3-eclipse-temurin-21-alpine
+    runs-on: ubuntu-latest
+    container:
+      image: maven:3-eclipse-temurin-21-alpine
     steps:
-      - name: run
+      - name: run tests
         run: mvn clean test
       - run: echo "This job's status is ${{ job.status }}."
