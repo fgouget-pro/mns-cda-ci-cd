@@ -33,3 +33,14 @@ jobs:
         run: docker push $ECR_REG:latest
         env:
           ECR_REG: ${{ vars.ECR_REGISTRY }}
+  Refresh-Instances:
+    needs: Build-Image
+    environment: Prod
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::345594592283:role/GitHubActionsECR
+          aws-region: eu-west-3
+      - name: Start Instance refresh
+        run: aws autoscaling start-instance-refresh --auto-scaling-group-name mns-cda-demo
