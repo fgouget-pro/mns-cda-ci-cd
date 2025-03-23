@@ -10,6 +10,8 @@ jobs:
         - ${{github.workspace}}:/usr/src/mymaven
       options: --workdir /usr/src/mymaven
     steps:
+      - run: pwd
+      - run: ls /usr/src/mymaven
       - name: run tests
         run: mvn clean test
       - run: echo "This job's status is ${{ job.status }}."
