@@ -1,0 +1,12 @@
+name: My Super App continuous Delivery
+on: [merge]
+jobs:
+  Build-Image:
+    runs-on: ubuntu-latest
+    environment: Prod
+    steps:
+      - name: Build Application
+        run: mvn spring-boot:build-image -Dspring-boot.build-image.imageName=$ECR_REG -DskipTests=true
+        env:
+          ECR_REG: ${{ vars.ECR_REGISTRY }}
+      - run: echo "This job's status is ${{ job.status }}."
