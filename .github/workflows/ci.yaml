@@ -4,14 +4,14 @@ on: [push]
 jobs:
   Maven-Test:
     runs-on: ubuntu-latest
-    container:
-      image: maven:3-eclipse-temurin-21-alpine
-      volumes:
-        - ${{github.workspace}}:/usr/src/mymaven
-      options: --workdir /usr/src/mymaven
     steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          - distribution: 'temurin'
+          - java-version: '21'
       - run: pwd
-      - run: ls
       - name: run tests
         run: mvn clean test
       - run: echo "This job's status is ${{ job.status }}."
