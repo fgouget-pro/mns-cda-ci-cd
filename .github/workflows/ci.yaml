@@ -6,6 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: maven:3-eclipse-temurin-21-alpine
+      volumes:
+        - ${{github.workspace}}:/usr/src/mymaven
+      options: --workdir /usr/src/mymaven
     steps:
       - name: run tests
         run: mvn clean test
