@@ -20,4 +20,6 @@ jobs:
         with:
           files: |
             target/surefire-reports/**/*.xml
+      - name: Build Application
+        run: mvn clean install spring-boot:build-image
       - run: echo "This job's status is ${{ job.status }}."
