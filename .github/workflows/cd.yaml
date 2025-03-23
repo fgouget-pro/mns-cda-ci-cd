@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - 'main'
+permissions:
+  id-token: write
+  contents: read
 jobs:
   Build-Image:
     runs-on: ubuntu-latest
@@ -18,4 +21,15 @@ jobs:
         run: mvn spring-boot:build-image -Dspring-boot.build-image.imageName=$ECR_REG -DskipTests=true
         env:
           ECR_REG: ${{ vars.ECR_REGISTRY }}
-      - run: echo "This job's status is ${{ job.status }}."
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::345594592283:role/GitHubActionsECR
+          aws-region: eu-west-3
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      - name: Docker push
+        run: docker push $ECR_REG:latest
+        env:
+          ECR_REG: ${{ vars.ECR_REGISTRY }}
