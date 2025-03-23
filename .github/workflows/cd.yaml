@@ -8,6 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     environment: Prod
     steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
       - name: Build Application
         run: mvn spring-boot:build-image -Dspring-boot.build-image.imageName=$ECR_REG -DskipTests=true
         env:
