@@ -21,5 +21,5 @@ jobs:
           files: |
             target/surefire-reports/**/*.xml
       - name: Build Application
-        run: mvn clean install spring-boot:build-image
+        run: mvn spring-boot:build-image -Dspring-boot.build-image.imageName=345594592283.dkr.ecr.eu-west-3.amazonaws.com/mns-cda/ci-demo -DskipTests=true
       - run: echo "This job's status is ${{ job.status }}."
